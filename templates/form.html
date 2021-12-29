@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block form %}
+<h2 class="title text-center display-4 mt-5">Lightning Parameters and Current Distributions</h2>
+
+<form class="form-inline" method="POST" >
+    <div class="container h-100 d-flex justify-content-center">
+    
+    <div class="row">
+        <label style="font-size:25px; font-weight:bold" for="countries">Choose a region:</label>
+
+        <input class="form__select" list="countries" name="countries">
+        <datalist class="text-center" id="countries">
+        <!-- <option value="none" selected disabled hidden></option> -->
+        
+        {% for opt in option_list %}
+          <option value={{ opt }}>
+        {% endfor %}
+        
+        <!-- <option value="Greece">Greece</option>
+        <option value="Colombia">Colombia</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Estonia">Estonia</option> -->
+        </datalist>
+
+        <input type="submit" class="btn btn-secondary form__submit" value="Display Data">
+      
+        
+    </div>    
+    </div> 
+
+    <!-- <div class="container">
+        <div class="row justify-content-center">
+          <h1>Lightning Parameters and Current Distributions</h1>
+        </div>
+      </div> -->
+    <!-- <h1 class = "text-center">Lightning Parameters and Current Distributions</h1> -->
+</form>
+{% endblock %}

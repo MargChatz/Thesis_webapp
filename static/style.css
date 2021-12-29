@@ -1,0 +1,86 @@
+html{
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 17px;
+}
+
+body{
+    background-color: rgba(255, 255, 255, 0);
+    color: black;
+    padding: 0;
+    margin: 0;
+}
+
+.container{
+    padding: 200px 0;
+}
+
+/* .row{
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+
+    text-align: center;
+    text-align-last: center;
+    border: 3px solid black;
+    cursor: pointer
+
+} */
+/* 
+.text-center {
+    padding: 200px 0;
+    text-align: center;
+  } */
+
+/* .title {
+    padding-top: 100px 0; 
+  } */
+
+
+  .form__select{
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+
+    margin: 10px;
+    text-align: center;
+    text-align-last: center;
+    border: 3px solid black;
+    cursor: pointer;
+
+}
+
+.form__submit {
+
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+
+}
+.form__submit:hover {
+    background-color: rgba(255, 255, 255, 0.459);
+    border: 2px solid black;
+
+}
+.p2 {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+.heading {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: xx-large;
+}
+
+.navbar {
+    background:#8e948b;
+}
+.nav-link,
+.navbar-brand {
+    color: #fff;
+    cursor: pointer;
+}
+.nav-link {
+    margin-right: 1em !important;
+}
+.nav-link:hover {
+    color: #000;
+}
+.navbar-collapse {
+    justify-content: flex-end;
+}

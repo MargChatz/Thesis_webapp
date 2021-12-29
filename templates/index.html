@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block index %}
+
+    <div class="heading">
+        <h4 style="display: inline;">Results for:</h4>
+        <h4 style="display: inline", id="country"></h4>
+    </div>
+
+    <!-- <div class="LLS">
+        <h4 style="display: inline;">The Lighning Location System used is:</h4>
+        <p style="display: inline", id="LLS"></p>
+
+    </div> -->
+
+    <div>
+        
+    </div>
+        <canvas id="positiveChart" style="width:100%;max-width:700px"></canvas>
+    </div>
+    </div>
+        <canvas id="negativeChart" style="width:100%;max-width:700px"></canvas>
+    </div>
+
+    <!-- src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" -->
+    <script>
+        //console.log("works")
+        var mydata = JSON.parse('{{ table_data | tojson | safe }}');
+        //alert(Object.keys(mydata));
+        document.getElementById('country').textContent =  mydata.country;
+        // document.getElementById('LLS').textContent =  mydata.LLS;
+        // var country = document.getElementById('demo');
+        // country.textContent = mydata.country;
+        //console.log("works")
+
+    </script>
+    
+    <script>
+        //console.log("works")
+        var graph_data = JSON.parse('{{ graph_data | tojson | safe }}');
+
+        var myChart = new Chart("positiveChart", {
+            type: "line",
+            data:{
+                labels: graph_data.xs,
+                datasets: [{
+                    label: 'selected_country',
+                    data: graph_data.graph_values_p,
+                    borderColor: "green",
+                    fill: false
+                },
+                {
+                    label: 'CIGRE',
+                    data: graph_data.cigre_graph_values_p,
+                    borderColor: "grey",
+                    fill: false
+                }]
+            },
+            options: {}
+        });  
+        
+        var myChart = new Chart("negativeChart", {
+            type: "line",
+            data:{
+                labels: graph_data.xs,
+                datasets: [{
+                    label: 'selected_country',
+                    data: graph_data.graph_values_n,
+                    borderColor: "green",
+                    fill: false
+                },
+                {
+                    label: 'CIGRE',
+                    data: graph_data.cigre_graph_values_n,
+                    borderColor: "grey",
+                    fill: false
+                }]
+            },
+            options: {}
+        });
+    </script>
+    
+
+{% endblock %}
