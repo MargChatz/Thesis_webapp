@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block addDataForm %} 
+<h2 class="title text-center display-4 mt-5">Add Data</h2>
+      
+    
+    <form>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Information for:</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Country">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Lightning Location System Used:</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="LLS">
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Detection Efficiency">
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Location Accuracy">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Ground Flash Density: </label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ng">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Current: </label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Median Current for Positive Strikes">
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Standard Deviation for Positive Strikes">
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Median Current for Negative Strikes">
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Standard Deviation for Negative Strikes">
+            
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Multiplicity: </label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Number Strikes per Flash">
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Comments: </label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Any Additional Information">
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Literature: </label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="cite">
+        </div>
+    </form>
+
+{% endblock %}

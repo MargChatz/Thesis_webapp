@@ -15,7 +15,7 @@ app.config["DEBUG"] = True
 def nav():
       return render_template("nav.html")
 
-@app.route("/",  methods=['GET','POST'])
+@app.route("/home",  methods=['GET','POST'])
 def home():
     print(request.method)
 
@@ -32,6 +32,7 @@ def home():
         td = {}
         gd = {}
         ld = None
+       
         for result in results:
             td["country"] = result[0]
             td["LLS"] = result[1]
@@ -56,6 +57,19 @@ def home():
         # Calculate graph values
         gd["xs"], gd["graph_values_p"] = graph_values(gd["median_current_p"], gd["std_current_p"], 200)
         gd["graph_values_n"] = graph_values(gd["median_current_n"], gd["std_current_n"], 200)[1]
+        
+        gd["csv_data_p"] = []
+
+        for i in range(len(gd["xs"])):
+            gd["csv_data_p"].append([gd["xs"][i], gd["graph_values_p"][i]])
+        
+        # print(gd["csv_data_p"])
+
+
+        # print(gd["xs"], gd["graph_values_p"])
+        # print(gd["graph_values_n"])
+        # print(gd["graph_values_p"])
+
 
         country_name = "CIGRE STD"
         cursor = dbc.get_db().execute("select * from Data where country == ?", [country_name])
@@ -67,8 +81,8 @@ def home():
             gd["cigre_std_current_n"] = result[8]
         gd["cigre_graph_values_p"] = graph_values(gd["cigre_median_current_p"], gd["cigre_std_current_p"], 200)[1]
         gd["cigre_graph_values_n"] = graph_values(gd["cigre_median_current_n"], gd["cigre_std_current_n"], 200)[1]
-        # print(gd["graph_values_p"])
-        # print(gd["graph_values_n"])
+        # print(gd["cigre_graph_values_p"])
+        # print(gd["cigre_graph_values_n"])
         dbc.close_connection()
         return render_template("index.html", table_data=td, graph_data=gd, literature_data=ld)
 
@@ -92,6 +106,6 @@ def country():
     print("Country")
     print(request.method)
 
-
-
-    
+@app.route("/addData",  methods=['GET','POST'])
+def addData():
+    return render_template("addDataForm.html")

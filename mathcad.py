@@ -13,6 +13,7 @@ def graph_values(median, std,iterations):
         xs.append(i)
         ys.append(1/(std*i*math.sqrt(math.pi*2)) * math.exp(  (-1)*((math.log(i) - math.log(median))**2)/(2*std**2)))
 
+    
     return (xs, ys)
 
 # def f(std,median,i):
