@@ -4,44 +4,61 @@
 <h2 class="title text-center display-4 mt-5">Add Data</h2>
       
     
-    <form>
+    <form method="POST">
         <div class="form-group">
-            <label for="formGroupExampleInput">Information for:</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Country">
+            <label for="country_input">Information for:</label>
+            <input type="text" class="form-control" id="country_input" name="country_input" placeholder="Country">
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput2">Lightning Location System Used:</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="LLS">
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Detection Efficiency">
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Location Accuracy">
+            <label for="LLS">Lightning Location System Used:</label>
+            <input type="text" class="form-control" id="LLS_input" name="LLS_input" placeholder="LLS">
+            <input type="real" class="form-control" id="DE_input"  name="DE_input" placeholder="Detection Efficiency">
+            <input type="real" class="form-control" id="LA_input" name="LA_input" placeholder="Location Accuracy">
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">Ground Flash Density: </label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ng">
+            <label for="ng_text">Ground Flash Density: </label>
+            <input type="text" class="form-control" id="ng_input" name="ng_input" placeholder="Ng">
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">Current: </label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Median Current for Positive Strikes">
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Standard Deviation for Positive Strikes">
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Median Current for Negative Strikes">
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Standard Deviation for Negative Strikes">
+            <label for="current">Current: </label>
+            <input type="real" class="form-control" id="median_p_input" name="median_p_input" placeholder="Median Current for Positive Strikes">
+            <input type="real" class="form-control" id="std_p_input" name="std_p_input" placeholder="Standard Deviation for Positive Strikes">
+            <input type="real" class="form-control" id="median_n_input" name="median_n_input" placeholder="Median Current for Negative Strikes">
+            <input type="real" class="form-control" id="std_n_input" name="std_n_input" placeholder="Standard Deviation for Negative Strikes">
             
         </div>
 
         <div class="form-group">
-            <label for="formGroupExampleInput">Multiplicity: </label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Number Strikes per Flash">
+            <label for="multiplicity">Multiplicity: </label>
+            <input type="integer" class="form-control" id="multi_input" name="multi_input" placeholder="Number Strikes per Flash">
         </div>
 
         <div class="form-group">
-            <label for="formGroupExampleInput">Comments: </label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Any Additional Information">
+            <label for="comments">Comments: </label>
+            <input type="text" class="form-control" id="comment_input" name="comment_input" placeholder="Any Additional Information">
         </div>
 
         <div class="form-group">
-            <label for="formGroupExampleInput">Literature: </label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="cite">
+            <label for="cite">Literature: </label>
+            <input type="text" class="form-control" id="cite_input" name="cite_input" placeholder="cite">
         </div>
+
+        <div>
+            <label>Is Champion: </label>
+        </div>
+        <div class = "form-check">    
+            <input class="form-check-input" type="checkbox" value="true" id="is_champion" name = "is_champion">
+            <label class="form-check-label" for="is_champion">
+                Check if True
+            </label>
+            
+        </div>
+
+        <input type="submit" class="btn btn-secondary form__submit"  value="Store To Database">
+
+        
     </form>
+
+  
 
 {% endblock %}
