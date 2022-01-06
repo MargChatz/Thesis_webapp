@@ -11,11 +11,8 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route("/nav",  methods=['GET','POST'])
-def nav():
-      return render_template("nav.html")
-
-@app.route("/home",  methods=['GET','POST'])
+@app.route("/", methods=['GET','POST'])
+@app.route("/home", methods=['GET','POST'])
 def home():
     print(request.method)
 
@@ -39,7 +36,7 @@ def home():
             td["LLS"] = result[1]
             td["DE"] = result[2]
             td["LA"] = result[3]
-            td["NG"] = result[4]
+            td["percentage"] = result[4]
 
             gd["median_current_p"] = result[5]
             gd["std_current_p"] = result[6]
@@ -85,6 +82,8 @@ def home():
         # print(gd["cigre_graph_values_p"])
         # print(gd["cigre_graph_values_n"])
         dbc.close_connection()
+
+        print(td)
         return render_template("index.html", table_data=td, graph_data=gd, literature_data=ld)
 
 
@@ -154,7 +153,7 @@ def addData():
         print(insert_data_sql)
         cursor = db.execute(insert_data_sql, data)
 
-        
+
         db.commit()
             
         dbc.close_connection()

@@ -12,32 +12,36 @@
 
     </div> -->
     
-
+<div class="table">
     <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
+        <thead id="table_head" class="font-weight-bold" >
+            <tr>
+                <!-- <th scope="col"></th>
+                <th scope="col" ></th>
+                <th scope="col"></th>
+                <th scope="col"></th> -->
+            </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
+
+        <tbody id="table_body" >
+            <tr>
+                <!-- <th scope="row" id="country"></th>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+            <tr>
+                <!-- <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td> -->
+            </tr>
     
         </tbody>
-      </table>       
+    </table>   
+
+</div>
+        
 <div class="canvas">
 
     <canvas id="positiveChart" ></canvas>
@@ -56,13 +60,49 @@
     <!-- src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous" -->
     <script>
         //console.log("works")
-        var mydata = JSON.parse('{{ table_data | tojson | safe }}');
+        var tableData = JSON.parse('{{ table_data | tojson | safe }}');
         //alert(Object.keys(mydata));
-        document.getElementById('country').textContent =  mydata.country;
-        // document.getElementById('LLS').textContent =  mydata.LLS;
-        // var country = document.getElementById('demo');
-        // country.textContent = mydata.country;
-        //console.log("works")
+        var dataKeys = Object.keys(tableData);
+        var dataValues = Object.values(tableData);
+       // alert(dataKeys);
+
+
+        var tableHead = document.getElementById("table_head");
+        var fisrtRow = tableHead.insertRow(tableData.length);
+
+        for (var i = 0; i < dataKeys.length; i++){
+            // if (i == 0){
+            //     cell = fisrtRow.insertCell(i);
+            //     cell.innerHTML = null;
+            // }
+            cell = fisrtRow.insertCell(i);
+            cell.innerHTML = dataKeys[i];
+        }
+
+
+        var tableBody = document.getElementById("table_body");
+        var secondRow = tableBody.insertRow(tableData.length);
+
+        for (var i = 0; i < dataValues.length; i++){
+            cell = secondRow.insertCell(i);
+            cell.innerHTML = dataValues[i];
+        }
+        // var data_array = [table_data["country"],table_data["LLS"], 
+        //                 table_data["DE"], table_data["LA"], 
+        //                 table_data["percentage"], table_data["multiplicity"],
+        //                 table_data["comments"], table_data["literature"]
+        //                 ];
+
+       
+
+        
+        // var cell_0 = newRow.insertCell(0);
+        // cell_0.innerHTML = table_data["country"];
+
+        // var cell_1 = newRow.insertCell(1);
+        // cell_1.innerHTML = table_data["LLS"];
+
+      
 
     </script>
     

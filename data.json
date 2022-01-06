@@ -1,1 +1,10 @@
-{}
+{
+    "country": "GREECE",
+    "LLS": "LINET",
+    "DE": 5.0,
+    "LA": 6.0,
+    "percentage": "3",
+    "multiplicity": 3,
+    "comments": "comments for greece",
+    "literature": "cite"
+}
