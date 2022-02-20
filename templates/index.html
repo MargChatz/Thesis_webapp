@@ -16,10 +16,13 @@
     <table class="table table-striped">
         <thead id="table_head" class="font-weight-bold" >
             <tr>
-                <!-- <th scope="col"></th>
-                <th scope="col" ></th>
-                <th scope="col"></th>
-                <th scope="col"></th> -->
+                <th >Country</th>
+                <th >Lightning Location System</th> 
+                <th >Detection Efficiency</th>
+                <th >Positive Flashes Percentage</th>
+                <th >Multiplicity</th> 
+                <th >Literature</th> 
+                <th >Comments</th> 
             </tr>
         </thead>
 
@@ -62,38 +65,53 @@
         //console.log("works")
         var tableData = JSON.parse('{{ table_data | tojson | safe }}');
         //alert(Object.keys(mydata));
+        console.log(tableData);
         var dataKeys = Object.keys(tableData);
         var dataValues = Object.values(tableData);
        // alert(dataKeys);
 
 
-        var tableHead = document.getElementById("table_head");
-        var fisrtRow = tableHead.insertRow(tableData.length);
+        // var tableHead = document.getElementById("table_head");
+        // var fisrtRow = tableHead.insertRow(tableData.length);
 
-        for (var i = 0; i < dataKeys.length; i++){
-            // if (i == 0){
-            //     cell = fisrtRow.insertCell(i);
-            //     cell.innerHTML = null;
-            // }
-            cell = fisrtRow.insertCell(i);
-            cell.innerHTML = dataKeys[i];
-        }
+        // for (var i = 0; i < dataKeys.length; i++){
+        //     // if (i == 0){
+        //     //     cell = fisrtRow.insertCell(i);
+        //     //     cell.innerHTML = null;
+        //     // }
+        //     console.log(i);
+        //     cell = fisrtRow.insertCell(i);
+        //     //cell.innerHTML = dataKeys[i];
+        // }
 
 
         var tableBody = document.getElementById("table_body");
         var secondRow = tableBody.insertRow(tableData.length);
 
-        for (var i = 0; i < dataValues.length; i++){
-            cell = secondRow.insertCell(i);
-            cell.innerHTML = dataValues[i];
-        }
-        // var data_array = [table_data["country"],table_data["LLS"], 
-        //                 table_data["DE"], table_data["LA"], 
-        //                 table_data["percentage"], table_data["multiplicity"],
-        //                 table_data["comments"], table_data["literature"]
-        //                 ];
+        // for (var i = 1; i < dataValues.length; i++){
+        //     cell = secondRow.insertCell(i);
+        //     cell.innerHTML = dataValues[i];
+        // }
+        var data_array = [tableData["country"],tableData["LLS"], 
+                        tableData["DE"],
+                        tableData["percentage"],
+                        tableData["multiplicity"],
+                        tableData["literature"],
+                        tableData["comments"]
+                        ];
 
-       
+            for (var i = 0; i < dataValues.length-1; i++){
+            cell = secondRow.insertCell(i);
+            
+            
+            if (i == dataValues.length-3)
+            {
+                console.log(data_array[i]);
+                cell.innerHTML = '<a href='+ data_array[i] +'>link</a>';
+                console.log(cell.innerHTML);
+            }
+            else{cell.innerHTML = data_array[i];}
+        }
 
         
         // var cell_0 = newRow.insertCell(0);
@@ -109,11 +127,11 @@
     <script>
         //console.log("works")
         var graph_data = JSON.parse('{{ graph_data | tojson | safe }}');
+        const labels = graph_data.xs;
 
         var myChart = new Chart("positiveChart", {
             type: "line",
             data:{
-                labels: graph_data.xs,
                 datasets: [{
                     label: 'selected_country',
                     data: graph_data.graph_values_p,
@@ -127,7 +145,26 @@
                     fill: false
                 }]
             },
-            options: {}
+            options: {
+                scales: {
+                    xAxes: {
+                        type: "linear",
+                        labels: graph_data.xs,
+
+                        ticks:{
+                            //autoSkip: true,
+                            stepSize: 10,
+                            max: 200,
+                            min: 0,
+                            // callback: function (val, index) {
+                            //     if(index % 30 === 0){
+                            //         return index
+                            //     }
+                            // },
+                        }
+                    }
+                }
+            }
         });
 
         //negative strikes graph  
@@ -149,7 +186,26 @@
                     fill: false
                 }]
             },
-            options: {}
+            options: {
+                scales: {
+                    xAxes: {
+                        type: "linear",
+                        labels: graph_data.xs,
+
+                        ticks:{
+                            //autoSkip: true,
+                            stepSize: 10,
+                            max: 200,
+                            min: 0,
+                            // callback: function (val, index) {
+                            //     if(index % 30 === 0){
+                            //         return index
+                            //     }
+                            // },
+                        }
+                    }
+                }
+            }
         });
 
         csvFileData = graph_data.csv_data_p
