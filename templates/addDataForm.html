@@ -60,5 +60,19 @@
     </form>
 
   
+    <script>     
+        var previous_form_result = JSON.parse('{{ previous_form | tojson | safe }}');
+        console.log(previous_form_result);
+        if (previous_form_result.result == 1)
+            {
+                alert("Entry added to database!");
+            }
+        else if (previous_form_result == 0)
+            {
+                alert("Error! Entry NOT added to database!");
+            }
 
+    </script>
+    
 {% endblock %}
+

@@ -1,3 +1,5 @@
+from math import e
+from os import EX_PROTOCOL, error
 from re import DEBUG
 from flask import (Flask, render_template, request, g, redirect, url_for,jsonify)
 import json
@@ -20,7 +22,7 @@ def home():
         country_name = request.form['countries']
         country_name = country_name.upper()
 
-        cursor = dbc.get_db().execute("select * from Data where country == ? and champion == 'true'", [country_name])
+        cursor = dbc.get_db().execute("select * from Data where country == ? and champion == 1", [country_name])
         results = cursor.fetchall()
         # print(results)
         # print(type(results))
@@ -57,10 +59,11 @@ def home():
         gd["graph_values_n"] = graph_values(gd["median_current_n"], gd["std_current_n"], 200)[1]
         
         gd["csv_data_p"] = []
-
+        gd["csv_data_n"] = []
         for i in range(len(gd["xs"])):
             gd["csv_data_p"].append([gd["xs"][i], gd["graph_values_p"][i]])
-        
+            gd["csv_data_n"].append([gd["xs"][i], gd["graph_values_n"][i]])
+
         # print(gd["csv_data_p"])
 
 
@@ -112,50 +115,63 @@ def country():
 def addData():
     
     if request.method == "POST":
-        result = request.form.to_dict()
-        print (result)
+        try:
+            result = request.form.to_dict()
+            print (result)
 
-       
-        #result.items() list of tuples k for key and v for values
-        for k,v in result.items():
-            #if value is empty put none
-            if not v:
-                result[k] = "NULL"
         
-        #Checkbox create false value
-        if "is_champion" not in result.keys():
-            result["is_champion"] = False
-
-        #print(result["is_champion"])
-
-        db = dbc.get_db()
-
-        insert_data_sql = "Insert into Data values(:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)" 
-        data = (result["country_input"],
-                result["LLS_input"],
-                result["DE_input"],
-                result["LA_input"],
-                result["ng_input"],
-                result["median_p_input"],
-                result["std_p_input"],
-                result["median_n_input"],
-                result["std_n_input"],
-                result["multi_input"],
-                result["comment_input"],
-                result["cite_input"],
-                result["is_champion"])  
-    
-        # insert_data_sql = "Insert into {} ({}) values({})" \
-        #     .format("Data",
-        #             "country", 
-        #             result["country_input"]
-        #             )
-        print(insert_data_sql)
-        cursor = db.execute(insert_data_sql, data)
-
-
-        db.commit()
+            #result.items() list of tuples k for key and v for values
+            for k,v in result.items():
+                #if value is empty put none
+                if not v:
+                    result[k] = "NULL"
             
-        dbc.close_connection()
+            #Checkbox create false value
+            if "is_champion" not in result.keys():
+                result["is_champion"] = 0
+            else:
+                result["is_champion"] = 1
 
-    return render_template("addDataForm.html")
+            #print(result["is_champion"])
+
+            db = dbc.get_db()
+            
+            max_id_in_db = db.execute("SELECT max(ID) from Data").fetchall()[0][0]
+            new_entry_id = max_id_in_db + 1
+
+            insert_data_sql = "Insert into Data values(:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14)" 
+            data = (result["country_input"],
+                    result["LLS_input"],
+                    result["DE_input"],
+                    result["LA_input"],
+                    result["ng_input"],
+                    result["median_p_input"],
+                    result["std_p_input"],
+                    result["median_n_input"],
+                    result["std_n_input"],
+                    result["multi_input"],
+                    result["comment_input"],
+                    result["cite_input"],
+                    result["is_champion"],
+                    new_entry_id)  
+
+            champion_id = dbc.get_champion_id(db,result["country_input"])
+            if result["is_champion"] == 1 and champion_id != -1:
+                dbc.set_not_champion(db,champion_id)
+            print(insert_data_sql)
+            
+            cursor = db.execute(insert_data_sql, data)
+
+
+            db.commit()
+                
+            dbc.close_connection()
+            result = {"result": 1}
+            return render_template("addDataForm.html", previous_form = result)
+        except e:
+            print(e)
+            result = {"result": 0}
+            return render_template("addDataForm.html",previous_form = result)
+    result = {"result": -1}
+    return render_template("addDataForm.html",previous_form = result)
+

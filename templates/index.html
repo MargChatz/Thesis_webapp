@@ -14,42 +14,54 @@
     
 <div class="table">
     <table class="table table-striped">
-        <thead id="table_head" class="font-weight-bold" >
+        <thead id="table_head" class="font-weight-bold"  style="text-align:center">
             <tr>
                 <th >Country</th>
                 <th >Lightning Location System</th> 
                 <th >Detection Efficiency</th>
-                <th >Positive Flashes Percentage</th>
+                <th >Positive Flashes Percentage (%)</th>
                 <th >Multiplicity</th> 
                 <th >Literature</th> 
                 <th >Comments</th> 
             </tr>
         </thead>
 
-        <tbody id="table_body" >
-            <tr>
-                <!-- <th scope="row" id="country"></th>
-                <td></td>
-                <td></td>
-                <td></td> -->
-            </tr>
-            <tr>
-                <!-- <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td> -->
-            </tr>
-    
+        <tbody id="table_body" style="text-align:center">
         </tbody>
     </table>   
+
+    <div class="table" style="width: 40%;  margin-left:30%;  margin-right:30%;"  >
+        <table class="table table-striped">
+            <thead id="table_head_2" class="font-weight-bold" style="text-align:center">
+                <tr>
+                    <th > </th>
+                    <th >Median Current Positive (kA)</th>
+                    <th ><p>σ<sub>ln</sub></p> Positive</th> 
+                    <th >Median Current Negative (kA)</th>
+                    <th ><p>σ<sub>ln</sub></p> Negative</th> 
+                </tr>
+            </thead>
+    
+            <tbody id="table_body_2" style="text-align:center">
+                <tr>
+                </tr>
+                <tr>
+                </tr>
+            </tbody>
+        </table>   
 
 </div>
         
 <div class="canvas">
 
+    <div>
     <canvas id="positiveChart" ></canvas>
+    <button onclick="download_csv_file_positive()"> Graph Data Positive CSV </button>
+    </div>
+    <div>
     <canvas id="negativeChart" style="margin-top: 50px;"></canvas>
-        
+    <button onclick="download_csv_file_negative()"> Graph Data Negative CSV</button>
+    </div>
 </div>
     
                
@@ -97,29 +109,62 @@
                         tableData["percentage"],
                         tableData["multiplicity"],
                         tableData["literature"],
-                        tableData["comments"]
+                        "Comments regarding Greece"
                         ];
 
             for (var i = 0; i < dataValues.length-1; i++){
             cell = secondRow.insertCell(i);
-            
-            
             if (i == dataValues.length-3)
-            {
-                console.log(data_array[i]);
-                cell.innerHTML = '<a href='+ data_array[i] +'>link</a>';
-                console.log(cell.innerHTML);
-            }
+                {
+                    console.log(data_array[i]);
+                    cell.innerHTML = '<a href='+ data_array[i] +'>source</a>';
+                    console.log(cell.innerHTML);
+                }
             else{cell.innerHTML = data_array[i];}
         }
-
-        
         // var cell_0 = newRow.insertCell(0);
         // cell_0.innerHTML = table_data["country"];
 
         // var cell_1 = newRow.insertCell(1);
         // cell_1.innerHTML = table_data["LLS"];
 
+
+
+        var graph_data = JSON.parse('{{ graph_data | tojson | safe }}');
+
+        var dataKeys = Object.keys(graph_data);
+        var dataValues = Object.values(graph_data);
+
+        var tableBody = document.getElementById("table_body_2");
+        var secondRow = tableBody.insertRow(graph_data.length);
+        var thirdRow = tableBody.insertRow(graph_data.length);
+
+        var data_array = ['<b>' + "CIGRE" + '</b>',
+                        graph_data["cigre_median_current_p"],graph_data["cigre_std_current_p"], 
+                        graph_data["cigre_median_current_n"],graph_data["cigre_std_current_n"],
+                        '<b>' + tableData["country"] + '</b>',
+                        graph_data["median_current_p"],graph_data["std_current_p"],
+                        graph_data["median_current_n"],graph_data["std_current_n"]
+                        ];
+
+
+            for (var i = 0; i < 10; i++){
+                if (i < 5)
+                    {
+                        cell = secondRow.insertCell(i);
+                        cell.innerHTML = data_array[i];
+                    }
+                else
+                {
+                    cell = thirdRow.insertCell(i-5);
+                    cell.innerHTML = data_array[i];
+                }
+        }
+        // var cell_0 = newRow.insertCell(0);
+        // cell_0.innerHTML = table_data["country"];
+
+        // var cell_1 = newRow.insertCell(1);
+        // cell_1.innerHTML = table_data["LLS"];
       
 
     </script>
@@ -147,10 +192,10 @@
             },
             options: {
                 scales: {
+
                     xAxes: {
                         type: "linear",
                         labels: graph_data.xs,
-
                         ticks:{
                             //autoSkip: true,
                             stepSize: 10,
@@ -161,6 +206,25 @@
                             //         return index
                             //     }
                             // },
+                        },
+                        title: {
+                            display: true,
+                            text: 'Lightning current I (kA)'
+                        }
+                    },
+                    yAxes: {
+                        title: {
+                            display: true,
+                            text: 'Probability Distribution'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Positive',
+                        font: {
+                            size: 20
                         }
                     }
                 }
@@ -202,20 +266,40 @@
                             //         return index
                             //     }
                             // },
+                        },
+                        title: {
+                            display: true,
+                            text: 'Lightning current I (kA)'
+                        }
+                    },
+                    yAxes: {
+                        title: {
+                            display: true,
+                            text: 'Probability Distribution'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Negative',
+                        font: {
+                            size: 20
                         }
                     }
                 }
             }
         });
 
-        csvFileData = graph_data.csv_data_p
+        csvFileData_positive = graph_data.csv_data_p
+        csvFileData_negative = graph_data.csv_data_n
 
-        function download_csv_file() {  
+        function download_csv_file_positive() {  
                 //define the heading for each row of the data  
                 var csv = 'I,Probability\n';  
                     
                 //merge the data with CSV  
-                csvFileData.forEach(function(row) {  
+                csvFileData_positive.forEach(function(row) {  
                         csv += row.join(',');  
                         csv += "\n";  
                 });  
@@ -233,12 +317,33 @@
                 hiddenElement.click();  
         }  
         
+
+        function download_csv_file_negative() {  
+                //define the heading for each row of the data  
+                var csv = 'I,Probability\n';  
+                    
+                //merge the data with CSV  
+                csvFileData_negative.forEach(function(row) {  
+                        csv += row.join(',');  
+                        csv += "\n";  
+                });  
+                
+                // //display the created CSV data on the web browser   
+                // document.write(csv);  
+
+                
+                var hiddenElement = document.createElement('a');  
+                hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+                hiddenElement.target = '_blank';  
+                    
+                //provide the name for the CSV file to be downloaded  
+                hiddenElement.download = 'Graph_Data_Negative.csv';  
+                hiddenElement.click();  
+        }  
        
     </script> 
 
-    <!-- create an HTML button to download the CSV file on click -->  
-    <button onclick="download_csv_file()"> Graph Data Positive </button>
-    <!-- <button onclick="download_csv_negative()"> Graph Data Negative </button>    -->
+
 
 
 
