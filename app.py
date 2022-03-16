@@ -66,7 +66,7 @@ def home():
 #     print(request.method)
 
 
-@app.route("/addData",  methods=['GET','POST'])
+@app.route("/add__data",  methods=['GET','POST'])
 def addData():
     
     if request.method == "POST":
@@ -139,12 +139,12 @@ def login():
         pass_to_bytes = str(request.form['password']).encode()
         hash_result = hashlib.md5(pass_to_bytes)
         pass_hex = hash_result.hexdigest()
-
+        print(pass_hex)
         access = dbc.check_if_user_allowed_to_add_data(dbc.get_db(), request.form['username'], pass_hex)
         if not access:
             error = 'Invalid Credentials. Please try again.'
         else:
-            return redirect('addData')
+            return redirect('/add__data')
     return render_template('login.html', error=error)
 
 
